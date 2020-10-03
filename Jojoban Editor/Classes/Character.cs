@@ -24,8 +24,8 @@ namespace Jojoban_Editor
                 new Character(4, "Hermit Purple", 0x11998C, 0x61EA1EA, 0x22A300, Rom.Fifty),
                 new Character(5, "Iggy", 0x339D0, 0x61EF37E, 0x6E4200, Rom.Forty),
                 new Character(5, "The Fool", 0x126538, 0x61EF37E, 0x3A6A00, Rom.Fifty),
-                new Character(6, "Alessy", 0x3B76C, 0x61F18B2, 0x703900, Rom.Forty),
-                new Character(6, "Alessy Axe", 0x435DC, 0x61F18B2, 0x703900, Rom.Forty),
+                new Character(6, "Alessi", 0x3B76C, 0x61F18B2, 0x703900, Rom.Forty),
+                new Character(6, "Alessi Axe", 0x435DC, 0x61F18B2, 0x703900, Rom.Forty),
                 new Character(6, "Sethan", 0x12FDD8, 0x61F18B2, 0x439200, Rom.Fifty),
                 new Character(7, "Chaka", 0x49048, 0x61F45D2, 0x00, Rom.FortyOne),
                 new Character(7, "Anubis", 0x133AD4, 0x61F45D2, 0xC6D00, Rom.FiftyOne),
@@ -55,7 +55,7 @@ namespace Jojoban_Editor
                 new Character(22, "Mariah", 0xAAD3C, 0x62104BE, 0x611600, Rom.FortyOne),
                 new Character(23, "Hoingo", 0xB1888, 0x621125C, 0x676600, Rom.FortyOne),
                 new Character(24, "Rubber Soul", 0xB9ADC, 0x6212418, 0x6F8600, Rom.FortyOne),
-                new Character(24, "Golden Temperance", 0x18B730, 0x6212418, 0x6F8600, Rom.FortyOne),
+                new Character(24, "Yellow Temperance", 0x18B730, 0x6212418, 0x6F8600, Rom.FortyOne),
                 new Character(25, "Khan", 0xBEC10, 0x62145B6, 0x75E600, Rom.FortyOne)
             };
         }

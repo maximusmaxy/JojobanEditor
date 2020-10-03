@@ -37,6 +37,7 @@
             this.hitboxCheckBox = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
+            this.spritePanel = new System.Windows.Forms.Panel();
             this.hitboxControlCol = new Jojoban_Editor.HitboxControl();
             this.hitboxControlLegs = new Jojoban_Editor.HitboxControl();
             this.hitboxControlTorso = new Jojoban_Editor.HitboxControl();
@@ -44,6 +45,7 @@
             this.hitboxControlAtk2 = new Jojoban_Editor.HitboxControl();
             this.hitboxControlAtk1 = new Jojoban_Editor.HitboxControl();
             ((System.ComponentModel.ISupportInitialize)(this.spritePictureBox)).BeginInit();
+            this.spritePanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // actionComboBox
@@ -89,13 +91,14 @@
             this.spritePictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.spritePictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.spritePictureBox.Location = new System.Drawing.Point(396, 3);
+            this.spritePictureBox.Location = new System.Drawing.Point(-2, -2);
             this.spritePictureBox.Name = "spritePictureBox";
-            this.spritePictureBox.Size = new System.Drawing.Size(690, 582);
-            this.spritePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.spritePictureBox.Size = new System.Drawing.Size(690, 584);
             this.spritePictureBox.TabIndex = 19;
             this.spritePictureBox.TabStop = false;
+            this.spritePictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.spritePictureBox_MouseDown);
+            this.spritePictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.spritePictureBox_MouseMove);
+            this.spritePictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.spritePictureBox_MouseUp);
             // 
             // frameComboBox
             // 
@@ -126,6 +129,19 @@
             this.label1.Size = new System.Drawing.Size(36, 13);
             this.label1.TabIndex = 32;
             this.label1.Text = "Frame";
+            // 
+            // spritePanel
+            // 
+            this.spritePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.spritePanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.spritePanel.Controls.Add(this.spritePictureBox);
+            this.spritePanel.Cursor = System.Windows.Forms.Cursors.Default;
+            this.spritePanel.Location = new System.Drawing.Point(396, 0);
+            this.spritePanel.Name = "spritePanel";
+            this.spritePanel.Size = new System.Drawing.Size(690, 584);
+            this.spritePanel.TabIndex = 33;
             // 
             // hitboxControlCol
             // 
@@ -197,6 +213,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.spritePanel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.hitboxCheckBox);
             this.Controls.Add(this.frameComboBox);
@@ -210,10 +227,10 @@
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.characterComboBox);
-            this.Controls.Add(this.spritePictureBox);
             this.Name = "HitboxPage";
             this.Size = new System.Drawing.Size(1089, 588);
             ((System.ComponentModel.ISupportInitialize)(this.spritePictureBox)).EndInit();
+            this.spritePanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -236,5 +253,6 @@
         private System.Windows.Forms.CheckBox hitboxCheckBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ColorDialog colorDialog;
+        private System.Windows.Forms.Panel spritePanel;
     }
 }

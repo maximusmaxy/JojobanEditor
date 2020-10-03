@@ -10,6 +10,9 @@ namespace Jojoban_Editor
         private bool loaded;
         private Sprite sprite;
         private Hitbox hitbox;
+        private int mouseX;
+        private int mouseY;
+        private bool mouseHold;
 
         public HitboxPage()
         {
@@ -38,6 +41,7 @@ namespace Jojoban_Editor
         {
             var bitmap = new Bitmap(16 * 32, 16 * 32);
             spritePictureBox.BackColor = sprite.BackColor;
+            spritePanel.BackColor = sprite.BackColor;
             var graphics = Graphics.FromImage(bitmap);
             graphics.Clear(sprite.BackColor);
             //graphics.DrawImage(sprite.Image, new Rectangle(256 + sprite.XOffset, 256 + sprite.YOffset, sprite.Image.Width, sprite.Image.Height),
@@ -155,14 +159,20 @@ namespace Jojoban_Editor
             var action = actionComboBox.SelectedItem as Action;
             var frame = frameComboBox.SelectedItem as ActionFrame;
             LoadActions();
-            var actionIndex = actionComboBox.Items.IndexOf(action);
-            if (actionIndex > -1)
+            if (action != null)
             {
-                actionComboBox.SelectedIndex = actionIndex;
-                var frameIndex = frameComboBox.Items.IndexOf(frame);
-                if (frameIndex > -1)
+                var actionIndex = actionComboBox.Items.IndexOf(action);
+                if (actionIndex > -1)
                 {
-                    frameComboBox.SelectedIndex = frameIndex;
+                    actionComboBox.SelectedIndex = actionIndex;
+                    if (frame != null)
+                    {
+                        var frameIndex = frameComboBox.Items.IndexOf(frame);
+                        if (frameIndex > -1)
+                        {
+                            frameComboBox.SelectedIndex = frameIndex;
+                        }
+                    }
                 }
             }
             UpdateHitboxes();
@@ -172,6 +182,27 @@ namespace Jojoban_Editor
         {
             if (!loaded) return;
             UpdateHitboxes();
+        }
+
+        private void spritePictureBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            mouseHold = true;
+            mouseX = e.X;
+            mouseY = e.Y;
+        }
+
+        private void spritePictureBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mouseHold)
+            {
+                spritePictureBox.Left = spritePictureBox.Left + e.X - mouseX;
+                spritePictureBox.Top = spritePictureBox.Top + e.Y - mouseY;
+            }
+        }
+
+        private void spritePictureBox_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouseHold = false;
         }
     }
 }
