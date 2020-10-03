@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Jojoban_Editor
@@ -13,9 +6,9 @@ namespace Jojoban_Editor
     public partial class HitboxControl : UserControl
     {
         public string Title { get; set; }
-        public Hitbox.Type Type { get; set; }
-        
-        public EditorForm Editor { get; set; }
+        public Hitbox Hitbox { get; set; }
+        public Box Box { get; set; }
+        public HitboxPage Page { get; set; }
         public HitboxControl()
         {
             InitializeComponent();
@@ -29,19 +22,66 @@ namespace Jojoban_Editor
         private void UpDownValueChanged(object sender, EventArgs e)
         {
             var upDown = sender as NumericUpDown;
-            var groupBox = upDown.Parent as GroupBox;
             var index = groupBox.Controls.GetChildIndex(upDown);
-            Editor.HitboxValueChanged(Type, index, (short)upDown.Value);
+            var value = (short)upDown.Value;
+            short previousValue = 0;
+            switch (index)
+            {
+                case 1:
+                    previousValue = Box.X;
+                    Box.X = value;
+                    break;
+                case 2:
+                    previousValue = Box.Y;
+                    Box.Y = value;
+                    break;
+                case 3:
+                    previousValue = Box.W;
+                    Box.W = value;
+                    break;
+                case 4:
+                    previousValue = Box.H;
+                    Box.H = value;
+                    break;
+            }
+            if (previousValue != value)
+            {
+                Page.UpdateHitbox();
+            }
         }
 
-        public void LoadBox(Box box)
+        private void NumChanged(object sender, EventArgs e)
         {
-            groupBox.Enabled = (box != null);
-            if (!groupBox.Enabled) return;
-            boxX.Value = box.X;
-            boxY.Value = box.Y;
-            boxWidth.Value = box.W;
-            boxHeight.Value = box.H;
+            var upDown = sender as NumericUpDown;
+            Hitbox.UpdateBoxIndex(Box.Type, (int)upDown.Value);
+            Page.LoadBoxes();
+            Page.UpdateHitbox();
+        }
+
+        public void LoadBox(Hitbox hitbox, Box box)
+        {
+            Hitbox = hitbox;
+            Box = box;
+            if (box.Index == 0)
+            {
+                boxNum.Value = 0;
+                boxX.Enabled = false;
+                boxY.Enabled = false;
+                boxWidth.Enabled = false;
+                boxHeight.Enabled = false;
+            }
+            else
+            {
+                boxX.Enabled = true;
+                boxY.Enabled = true;
+                boxWidth.Enabled = true;
+                boxHeight.Enabled = true;
+                boxNum.Value = box.Index;
+                boxX.Value = box.X;
+                boxY.Value = box.Y;
+                boxWidth.Value = box.W;
+                boxHeight.Value = box.H;
+            }
         }
     }
 }

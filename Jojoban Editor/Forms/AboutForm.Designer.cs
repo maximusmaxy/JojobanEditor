@@ -39,9 +39,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(79, 13);
+            this.label1.Size = new System.Drawing.Size(300, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Made by Maxie";
+            this.label1.Text = "Made by Maxie with help from the HFTF Stardust Romhackers";
             // 
             // githubLabel
             // 
@@ -78,11 +78,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(250, 121);
+            this.ClientSize = new System.Drawing.Size(337, 123);
             this.Controls.Add(this.discordLabel);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.githubLabel);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "AboutForm";
             this.Text = "About";
             this.ResumeLayout(false);

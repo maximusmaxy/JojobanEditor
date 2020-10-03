@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace Jojoban_Editor
 {
     public class Box
     {
+        public int Index { get; set; }
         public int Address { get; set; }
         public Pen Color { get; set; }
+        public Hitbox.Type Type { get; set; }
+        public Character Character { get; set; }
         private short x;
         private short y;
         private short w;
@@ -34,7 +32,8 @@ namespace Jojoban_Editor
                 Rom.Ten.WriteWordSigned(Address + 0x04, value);
             }
         }
-        public short W {
+        public short W
+        {
             get { return w; }
             set
             {
@@ -45,7 +44,8 @@ namespace Jojoban_Editor
         public short H
         {
             get { return h; }
-            set {
+            set
+            {
                 h = value;
                 Rom.Ten.WriteWordSigned(Address + 0x06, value);
             }

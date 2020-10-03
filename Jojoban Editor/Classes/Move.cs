@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Jojoban_Editor
 {
@@ -50,7 +46,8 @@ namespace Jojoban_Editor
         Byte27 = 0x27
     }
 
-    public enum BlockingType {
+    public enum BlockingType
+    {
         Mid = 1,
         Low = 2,
         Overhead = 3

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 
 namespace Jojoban_Editor
 {
@@ -20,10 +17,12 @@ namespace Jojoban_Editor
         public static Rom Fifty { get; set; }
         public static Rom FiftyOne { get; set; }
 
+        public static Rom[] Roms { get; set; }
+
         public static uint key1 = 0x23323EE3;
         public static uint key2 = 0x03021972;
 
-        public static void LoadRoms(string path, ProgressDialog dialog)
+        public static void LoadRoms(string path)
         {
             using (FileStream file = new FileStream(path, FileMode.Open))
             {
@@ -32,18 +31,18 @@ namespace Jojoban_Editor
                     var simm = ArchiveType(archive);
                     Ten = new Rom(archive, "10", simm, true, 0x6000000);
                     Twenty = new Rom(archive, "20", simm, true, 0x6800000);
-                    Thirty = new Rom(archive, "30", simm, false);
-                    ThirtyOne = new Rom(archive, "31", simm, false);
-                    Forty = new Rom(archive, "40", simm, false);
-                    FortyOne = new Rom(archive, "41", simm, false);
-                    Fifty = new Rom(archive, "50", simm, false);
-                    FiftyOne = new Rom(archive, "51", simm, false);
-                    dialog.Close();
+                    Thirty = new Rom(archive, "30", simm, false, 0x0000000);
+                    ThirtyOne = new Rom(archive, "31", simm, false, 0x0800000);
+                    Forty = new Rom(archive, "40", simm, false, 0x1000000);
+                    FortyOne = new Rom(archive, "41", simm, false, 0x1800000);
+                    Fifty = new Rom(archive, "50", simm, false, 0x2000000);
+                    FiftyOne = new Rom(archive, "51", simm, false, 0x2800000);
+                    Path = path;
                 }
             }
         }
 
-        public static void SaveRoms(string path, ProgressDialog dialog)
+        public static void SaveRoms(string path)
         {
             using (FileStream file = new FileStream(path, FileMode.Open))
             {
@@ -77,6 +76,20 @@ namespace Jojoban_Editor
             {
                 throw new Exception("No 10 or jojoba-simm1.0 file found.");
             }
+        }
+
+        public static bool IsUpdated()
+        {
+            if (Path == null)
+            {
+                return false;
+            }
+            return GetRoms().Any(r => r.updated);
+        }
+
+        public static Rom[] GetRoms()
+        {
+            return new Rom[] { Ten, Twenty, Thirty, ThirtyOne, Forty, FortyOne, Fifty, FiftyOne };
         }
 
         public byte[] Bytes { get; set; }
@@ -147,10 +160,10 @@ namespace Jojoban_Editor
             {
                 for (int i = 0; i < Bytes.Length; i += 4)
                 {
-                    uint dword = Bytes.GetDoubleWord(i); 
+                    uint dword = GetDoubleWord(i);
                     uint xorMask = Cps3Mask((uint)(Offset + i), key1, key2);
                     uint result = dword ^ xorMask;
-                    Bytes.SetDoubleWord(result, i);
+                    SetDoubleWord(result, i);
                 }
             }
         }
@@ -159,7 +172,7 @@ namespace Jojoban_Editor
         {
             if (!updated) return;
             byte[] writeBytes;
-            
+
             if (Encrypted)
             {
                 Array.Copy(Bytes, buffer, Bytes.Length);
@@ -218,15 +231,9 @@ namespace Jojoban_Editor
                 using (var tenStream = new BinaryWriter(file.Open()))
                 {
                     tenStream.Write(writeBytes);
-                } 
+                }
             }
-        }
-
-        public void WriteWordSigned(int index, short value)
-        {
-            if (value != Bytes.GetWordSigned(index))
-                updated = true;
-            Bytes.SetWordSigned(value, index);
+            updated = false;
         }
 
         private ushort RotateLeft(ushort value, int n)
@@ -251,6 +258,84 @@ namespace Jojoban_Editor
             val = RotateXor(val, (ushort)(key2 >> 16));
             val ^= (ushort)((address & 0xFFFF) ^ (key2 & 0xFFFF));
             return (uint)(val | (val << 16));
+        }
+
+        public byte GetByte(int index)
+        {
+            return Bytes[index];
+        }
+
+        public ushort GetWord(int index)
+        {
+            if (BitConverter.IsLittleEndian)
+            {
+                int result = Bytes[index] << 8;
+                result += Bytes[index + 1];
+                return (ushort)result;
+            }
+            else
+            {
+                return BitConverter.ToUInt16(Bytes, index);
+            }
+        }
+
+        public short GetWordSigned(int index)
+        {
+            if (BitConverter.IsLittleEndian)
+            {
+                int result = Bytes[index] << 8;
+                result += Bytes[index + 1];
+                if (result > 0x7FFF)
+                    result -= 0x10000;
+                return (short)result;
+            }
+            else
+            {
+                return BitConverter.ToInt16(Bytes, index);
+            }
+        }
+
+        public uint GetDoubleWord(int index)
+        {
+            if (BitConverter.IsLittleEndian)
+            {
+                uint result = Bytes[index + 3];
+                result += (uint)Bytes[index + 2] << 8;
+                result += (uint)Bytes[index + 1] << 16;
+                result += (uint)Bytes[index] << 24;
+                return result;
+            }
+            else
+            {
+                return BitConverter.ToUInt32(Bytes, index);
+            }
+        }
+
+        private void SetDoubleWord(uint value, int index)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                Bytes[index + i] = (byte)((value >> 8 * (3 - i)) & 0xFF);
+            }
+        }
+
+        public void WriteWordSigned(int index, short value)
+        {
+            if (!updated)
+            {
+                if (value != GetWordSigned(index))
+                {
+                    updated = true;
+                    EditorForm.Current.MarkUpdated();
+                }
+            }
+            Bytes[index] = (byte)(value >> 8);
+            Bytes[index + 1] = (byte)(value & 0xFF);
+        }
+
+        public Rom NextRom()
+        {
+            return Roms[Array.IndexOf(Roms, this) + 1];
         }
     }
 }

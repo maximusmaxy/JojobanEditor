@@ -29,15 +29,18 @@
         private void InitializeComponent()
         {
             this.groupBox = new System.Windows.Forms.GroupBox();
+            this.boxNum = new System.Windows.Forms.NumericUpDown();
             this.boxX = new System.Windows.Forms.NumericUpDown();
             this.boxY = new System.Windows.Forms.NumericUpDown();
             this.boxWidth = new System.Windows.Forms.NumericUpDown();
             this.boxHeight = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.boxNum)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.boxX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.boxY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.boxWidth)).BeginInit();
@@ -46,24 +49,44 @@
             // 
             // groupBox
             // 
+            this.groupBox.Controls.Add(this.boxNum);
             this.groupBox.Controls.Add(this.boxX);
             this.groupBox.Controls.Add(this.boxY);
             this.groupBox.Controls.Add(this.boxWidth);
             this.groupBox.Controls.Add(this.boxHeight);
+            this.groupBox.Controls.Add(this.label5);
             this.groupBox.Controls.Add(this.label4);
             this.groupBox.Controls.Add(this.label3);
             this.groupBox.Controls.Add(this.label2);
             this.groupBox.Controls.Add(this.label1);
             this.groupBox.Location = new System.Drawing.Point(3, 3);
             this.groupBox.Name = "groupBox";
-            this.groupBox.Size = new System.Drawing.Size(176, 130);
+            this.groupBox.Size = new System.Drawing.Size(184, 149);
             this.groupBox.TabIndex = 4;
             this.groupBox.TabStop = false;
             this.groupBox.Text = "Box";
             // 
+            // boxNum
+            // 
+            this.boxNum.Location = new System.Drawing.Point(58, 16);
+            this.boxNum.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+            this.boxNum.Minimum = new decimal(new int[] {
+            32768,
+            0,
+            0,
+            -2147483648});
+            this.boxNum.Name = "boxNum";
+            this.boxNum.Size = new System.Drawing.Size(120, 20);
+            this.boxNum.TabIndex = 8;
+            this.boxNum.ValueChanged += new System.EventHandler(this.NumChanged);
+            // 
             // boxX
             // 
-            this.boxX.Location = new System.Drawing.Point(48, 19);
+            this.boxX.Location = new System.Drawing.Point(58, 42);
             this.boxX.Maximum = new decimal(new int[] {
             32767,
             0,
@@ -81,7 +104,7 @@
             // 
             // boxY
             // 
-            this.boxY.Location = new System.Drawing.Point(48, 45);
+            this.boxY.Location = new System.Drawing.Point(58, 68);
             this.boxY.Maximum = new decimal(new int[] {
             32767,
             0,
@@ -99,7 +122,7 @@
             // 
             // boxWidth
             // 
-            this.boxWidth.Location = new System.Drawing.Point(48, 71);
+            this.boxWidth.Location = new System.Drawing.Point(58, 94);
             this.boxWidth.Maximum = new decimal(new int[] {
             32767,
             0,
@@ -117,7 +140,7 @@
             // 
             // boxHeight
             // 
-            this.boxHeight.Location = new System.Drawing.Point(48, 97);
+            this.boxHeight.Location = new System.Drawing.Point(58, 120);
             this.boxHeight.Maximum = new decimal(new int[] {
             32767,
             0,
@@ -133,10 +156,19 @@
             this.boxHeight.TabIndex = 3;
             this.boxHeight.ValueChanged += new System.EventHandler(this.UpDownValueChanged);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(8, 18);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(44, 13);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "Number";
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(4, 99);
+            this.label4.Location = new System.Drawing.Point(14, 122);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(38, 13);
             this.label4.TabIndex = 7;
@@ -145,7 +177,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 73);
+            this.label3.Location = new System.Drawing.Point(17, 96);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(35, 13);
             this.label3.TabIndex = 6;
@@ -154,7 +186,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(28, 47);
+            this.label2.Location = new System.Drawing.Point(38, 70);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(14, 13);
             this.label2.TabIndex = 5;
@@ -163,7 +195,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(28, 21);
+            this.label1.Location = new System.Drawing.Point(38, 44);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(14, 13);
             this.label1.TabIndex = 4;
@@ -175,10 +207,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox);
             this.Name = "HitboxControl";
-            this.Size = new System.Drawing.Size(182, 135);
+            this.Size = new System.Drawing.Size(192, 154);
             this.Load += new System.EventHandler(this.HitboxControl_Load);
             this.groupBox.ResumeLayout(false);
             this.groupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.boxNum)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.boxX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.boxY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.boxWidth)).EndInit();
@@ -198,5 +231,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown boxNum;
+        private System.Windows.Forms.Label label5;
     }
 }
